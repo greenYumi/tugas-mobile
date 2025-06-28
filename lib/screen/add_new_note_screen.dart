@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:well_being_2/data/note_data.dart';
 
 class AddNewNoteScreen extends StatefulWidget {
@@ -18,6 +17,7 @@ class AddNewNoteScreen extends StatefulWidget {
 
 class _AddNewNoteScreenState extends State<AddNewNoteScreen> {
   final TextEditingController _myController = TextEditingController();
+  bool pushResult = false;
 
   @override
   Widget build(BuildContext context) {

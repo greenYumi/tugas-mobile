@@ -25,6 +25,7 @@ class _NoteMainScreenState extends State<NoteMainScreen> {
   Widget build(BuildContext context) {
     final int listIdx = noteData.length;
     final List<Map<String, dynamic>> noteBooks = noteData;
+    final ScrollController _myScrollControler = ScrollController();
 
     return ListView(
       children: [
