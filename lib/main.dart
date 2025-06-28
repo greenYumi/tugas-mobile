@@ -1,25 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:well_being_2/provider/app_provider.dart';
-import 'package:well_being_2/screen/main_dialog_screen.dart';
+import 'package:well_being_2/provider/share_provider.dart';
+import 'package:well_being_2/screen/note_main_screen.dart';
 
 void main() {
   runApp(
     MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppProvider())],
-      child: MainScreen(),
+      providers: [ChangeNotifierProvider(create: (context) => ShareProvider())],
+      child: MyApp(),
     ),
   );
 }
 
-class MainScreen extends StatelessWidget {
-  const MainScreen({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: MainDialogScreen(),
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.teal.shade50,
+          title: Text(context.read<ShareProvider>().appBarTitle),
+        ),
+        drawer: Drawer(),
+        body: NoteMainScreen(),
+      ),
     );
   }
 }
