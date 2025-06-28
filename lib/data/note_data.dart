@@ -5,7 +5,7 @@ List<Map<String, dynamic>> noteData = [
     'list_id': 0,
     "title": "My Note Today",
     "date": DateTime.now(),
-    "icon": Icons.note,
+    "icon": Icons.book,
     "notes": [
       {
         "note_id": 0,

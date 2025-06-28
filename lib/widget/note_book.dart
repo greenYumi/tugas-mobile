@@ -26,6 +26,7 @@ class NoteBook extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
+        onLongPress: () {},
         onTap: () async {
           var result = await Navigator.push(
             context,

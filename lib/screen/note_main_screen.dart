@@ -55,7 +55,7 @@ class _NoteMainScreenState extends State<NoteMainScreen> {
                             "list_id": listIdx,
                             "title": _myController.text,
                             "date": date,
-                            "icon": Icons.note,
+                            "icon": Icons.book,
                             "notes": [],
                           });
 
