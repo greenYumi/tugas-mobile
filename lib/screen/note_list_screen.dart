@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:well_being_2/data/note_data.dart';
 import 'package:well_being_2/screen/add_new_note_screen.dart';
 import 'package:well_being_2/widget/note.dart';
 
@@ -56,68 +55,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
                 setState(() {});
               },
             );
-            // Card(
-            //   child: ListTile(
-            //     shape: RoundedRectangleBorder(
-            //       borderRadius: BorderRadiusGeometry.all(Radius.circular(16)),
-            //     ),
-            //     onTap: () {},
-            //     tileColor: note["color"],
-            //     title: Text(note["title"]),
-            //     subtitle: SizedBox(
-            //       height: 20,
-            //       width: 20,
-            //       child: Text(note["content"], overflow: TextOverflow.ellipsis),
-            //     ),
-            //     trailing: PopupMenuButton(
-            //       icon: Icon(Icons.more_vert),
-            //       itemBuilder: (context) => <PopupMenuEntry>[
-            //         PopupMenuItem(
-            //           child: ListTile(
-            //             onTap: () {
-            //               Navigator.pop(context);
-            //             },
-            //             leading: Icon(Icons.delete),
-            //             title: Text("Hapus"),
-            //           ),
-            //         ),
-            //         PopupMenuDivider(),
-            //         PopupMenuItem(
-            //           child: ListTile(
-            //             onTap: () {
-            //               noteData[widget
-            //                       .notes["list_id"]]["notes"][note["note_id"]]["color"] =
-            //                   Colors.red.shade300;
-            //               Navigator.pop(context);
-            //               setState(() {});
-            //             },
-            //             leading: CircleAvatar(
-            //               backgroundColor: Colors.red.shade300,
-            //               radius: 10,
-            //             ),
-            //             title: Text("Red"),
-            //           ),
-            //         ),
-            //         PopupMenuItem(
-            //           child: ListTile(
-            //             onTap: () {
-            //               noteData[widget
-            //                       .notes["list_id"]]["notes"][note["note_id"]]["color"] =
-            //                   Colors.yellow.shade300;
-            //               Navigator.pop(context);
-            //               setState(() {});
-            //             },
-            //             leading: CircleAvatar(
-            //               backgroundColor: Colors.amber.shade300,
-            //               radius: 10,
-            //             ),
-            //             title: Text("Yellow"),
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
-            // );
           }),
         ],
       ),

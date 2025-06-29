@@ -1,5 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:well_being_2/data/appbar_data.dart';
 import 'package:well_being_2/provider/share_provider.dart';
 import 'package:well_being_2/screen/note_main_screen.dart';
 
@@ -12,10 +15,17 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
-  MyApp({super.key});
-  final PageController _myPageController = PageController(initialPage: 1);
+int currenIndexScreen = 0;
+final List<Map<String, dynamic>> screenData = appBarData;
 
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -23,7 +33,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.teal.shade50,
-          title: Text(context.read<ShareProvider>().appBarTitle),
+          title: Text(screenData[currenIndexScreen]["title"]),
           actions: [
             Builder(
               builder: (context) => IconButton(
@@ -48,11 +58,16 @@ class MyApp extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "NOTE TODAY",
+                              screenData[currenIndexScreen]["title"],
                               style: TextStyle(
                                 fontSize: 30,
                                 fontWeight: FontWeight.bold,
                               ),
+                            ),
+                            SizedBox(height: 20),
+                            Text(
+                              screenData[currenIndexScreen]["info"]["desk"],
+                              style: TextStyle(fontSize: 20),
                             ),
                           ],
                         ),
@@ -65,7 +80,42 @@ class MyApp extends StatelessWidget {
             ),
           ],
         ),
-        drawer: Drawer(),
+        drawer: Drawer(
+          child: ListView(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 100,
+                color: Colors.blue,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    spacing: 10,
+                    children: [
+                      CircleAvatar(radius: 30),
+                      Text("Profile", style: TextStyle(fontSize: 20)),
+                    ],
+                  ),
+                ),
+              ),
+              ...screenData.map((e) {
+                return Builder(
+                  builder: (context) {
+                    return ListTile(
+                      title: Text(e["title"]),
+                      onTap: () {
+                        currenIndexScreen = e["id"];
+                        setState(() {});
+                        Navigator.pop(context);
+                      },
+                    );
+                  },
+                );
+              }),
+            ],
+          ),
+        ),
         body: NoteMainScreen(),
       ),
     );
