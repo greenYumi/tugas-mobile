@@ -87,7 +87,7 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                               child: CircularProgressIndicator(
                                 color: Colors.white,
                                 value: 100,
-                                strokeWidth: 7,
+                                strokeWidth: 10,
                                 strokeCap: StrokeCap.round,
                               ),
                             ),
@@ -109,7 +109,7 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                                 builder: (context, value, child) =>
                                     CircularProgressIndicator(
                                       value: value / 1,
-                                      strokeWidth: 10,
+                                      strokeWidth: 20,
                                       color: (today < goal)
                                           ? Colors.cyan.shade600
                                           : Colors.lightBlue,
@@ -262,12 +262,9 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                           flex: 2,
                           child: Card(
                             color: Colors.blue.shade400,
-
                             child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  addToday(defaultDrink);
-                                });
+                                addToday(defaultDrink);
                               },
                               child: SizedBox(
                                 height: 100,
