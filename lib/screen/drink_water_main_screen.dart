@@ -8,8 +8,9 @@ class DrinkWaterMainScreen extends StatefulWidget {
 }
 
 class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
-  int goal = 1000;
+  int goal = 3200;
   int today = 300;
+  int defaultDrink = 250;
 
   @override
   Widget build(BuildContext context) {
@@ -51,11 +52,19 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                             padding: const EdgeInsets.all(15),
                             child: RotatedBox(
                               quarterTurns: 2,
-                              child: CircularProgressIndicator(
-                                value: today / goal,
-                                strokeWidth: 10,
-                                color: Colors.blue,
-                                strokeCap: StrokeCap.round,
+                              child: TweenAnimationBuilder(
+                                tween: Tween(begin: 0, end: today / goal),
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.easeInOut,
+                                builder: (context, value, child) =>
+                                    CircularProgressIndicator(
+                                      value: value / 1,
+                                      strokeWidth: 10,
+                                      color: (today < goal)
+                                          ? Colors.cyan.shade600
+                                          : Colors.lightBlue,
+                                      strokeCap: StrokeCap.round,
+                                    ),
                               ),
                             ),
                           ),
@@ -64,12 +73,26 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                           width: 300,
                           height: 300,
                           child: Center(
-                            child: Text(
-                              "$today / $goal ml",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "$today / $goal ml",
+                                  style: (today < goal)
+                                      ? TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500,
+                                        )
+                                      : TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.blueAccent,
+                                        ),
+                                ),
+                                (today >= goal)
+                                    ? Text("Kamu minum cukup air hari ini")
+                                    : SizedBox.shrink(),
+                              ],
                             ),
                           ),
                         ),
@@ -83,20 +106,16 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                     ),
                   ],
                 ),
-                Card(
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      today += defaultDrink;
+                    });
+                  },
+                  onLongPress: () {},
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: PopupMenuButton(
-                      child: Text("drink"),
-                      itemBuilder: (context) {
-                        return <PopupMenuEntry>[
-                          PopupMenuItem(child: Text("500 ml"), onTap: () {}),
-                          PopupMenuItem(child: Text("1000 ml")),
-                          PopupMenuItem(child: Text("1500 ml")),
-                          PopupMenuItem(child: Text("2000 ml")),
-                        ];
-                      },
-                    ),
+                    child: Text("Drink 250ml", style: TextStyle(fontSize: 20)),
                   ),
                 ),
               ],
