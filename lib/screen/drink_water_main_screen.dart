@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/material_symbols_icons.dart';
 
@@ -10,10 +12,16 @@ class DrinkWaterMainScreen extends StatefulWidget {
 
 class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
   int goal = 3200;
-  int today = 300;
+  int today = 0;
   int defaultDrink = 250;
-  bool slider = true;
+  bool slider = false;
   double waterSlider = 0;
+  DateTime lastDrink = DateTime.now();
+  DateTime? nextDrink;
+  int setInterval = 2;
+  int? countDown;
+
+  Timer? _time;
 
   void closeSlider() {
     if (slider) {
@@ -23,8 +31,34 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
 
   void addToday(int addWater) {
     setState(() {
+      lastDrink = nextDrink!;
+
+      if (lastDrink
+          .add(Duration(hours: setInterval))
+          .isBefore(
+            DateTime(lastDrink.year, lastDrink.month, lastDrink.day, 23, 59),
+          )) {
+        nextDrink = lastDrink.add(Duration(hours: setInterval));
+      }
+
+      countDown = nextDrink!.difference(lastDrink).inSeconds.toInt();
       today += addWater;
       closeSlider();
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    nextDrink = lastDrink.add(Duration(hours: 2));
+    countDown = nextDrink!.difference(lastDrink).inSeconds.toInt();
+
+    _time = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        countDown = countDown! - 1;
+      });
     });
   }
 
@@ -120,9 +154,38 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                         Expanded(
                           flex: 3,
                           child: Card(
+                            color: Colors.white,
                             child: InkWell(
-                              onTap: () {},
-                              child: SizedBox(height: 100),
+                              onLongPress: () {},
+                              child: SizedBox(
+                                height: 100,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Menum selanjutnya:",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Jam ${nextDrink!.hour.toString().padLeft(2, "0")}: ${nextDrink!.minute.toString().padLeft(2, "0")}",
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color.fromARGB(
+                                          255,
+                                          156,
+                                          210,
+                                          255,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
@@ -174,7 +237,7 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                                     PopupMenuItem(
                                       child: Text("500 ml"),
                                       onTap: () {
-                                        addToday(5000);
+                                        addToday(500);
                                       },
                                     ),
                                     PopupMenuItem(
@@ -203,10 +266,7 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                             child: InkWell(
                               onTap: () {
                                 setState(() {
-                                  today += defaultDrink;
-                                  if (slider) {
-                                    slider = !slider;
-                                  }
+                                  addToday(defaultDrink);
                                 });
                               },
                               child: SizedBox(
