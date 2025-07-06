@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/material_symbols_icons.dart';
 
 class DrinkWaterMainScreen extends StatefulWidget {
   const DrinkWaterMainScreen({super.key});
@@ -11,6 +12,21 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
   int goal = 3200;
   int today = 300;
   int defaultDrink = 250;
+  bool slider = true;
+  double waterSlider = 0;
+
+  void closeSlider() {
+    if (slider) {
+      slider = false;
+    }
+  }
+
+  void addToday(int addWater) {
+    setState(() {
+      today += addWater;
+      closeSlider();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -98,29 +114,238 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
                         ),
                       ],
                     ),
-                    Card(
-                      child: InkWell(
-                        onTap: () {},
-                        child: SizedBox(width: 200, height: 100),
-                      ),
+                    SizedBox(height: 30),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 3,
+                          child: Card(
+                            child: InkWell(
+                              onTap: () {},
+                              child: SizedBox(height: 100),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Card(
+                            color: Colors.blue.shade200,
+                            child: SizedBox(
+                              height: 100,
+                              child: GestureDetector(
+                                onTap: null,
+                                onLongPress: () {
+                                  setState(() {
+                                    slider = true;
+                                  });
+                                },
+                                child: PopupMenuButton(
+                                  position: PopupMenuPosition.under,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadiusGeometry.all(
+                                      Radius.circular(16),
+                                    ),
+                                  ),
+                                  onOpened: () {
+                                    setState(() {
+                                      closeSlider();
+                                    });
+                                  },
+                                  child: Column(
+                                    spacing: 0,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(
+                                        Icons.water_drop_outlined,
+                                        color: Colors.white,
+                                        size: 45,
+                                      ),
+                                      Text(
+                                        "mL",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  itemBuilder: (context) => <PopupMenuEntry>[
+                                    PopupMenuItem(
+                                      child: Text("500 ml"),
+                                      onTap: () {
+                                        addToday(5000);
+                                      },
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text("750 ml"),
+                                      onTap: () {
+                                        addToday(750);
+                                      },
+                                    ),
+                                    PopupMenuItem(
+                                      child: Text("900 ml"),
+                                      onTap: () {
+                                        addToday(900);
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Card(
+                            color: Colors.blue.shade400,
+
+                            child: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  today += defaultDrink;
+                                  if (slider) {
+                                    slider = !slider;
+                                  }
+                                });
+                              },
+                              child: SizedBox(
+                                height: 100,
+                                child: Center(
+                                  child: Text(
+                                    "Drink $defaultDrink",
+                                    style: TextStyle(
+                                      fontSize: 26,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      today += defaultDrink;
-                    });
-                  },
-                  onLongPress: () {},
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text("Drink 250ml", style: TextStyle(fontSize: 20)),
-                  ),
                 ),
               ],
             ),
           ),
+          (slider)
+              ? Card(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 0,
+                          top: 10,
+                          right: 30,
+                          bottom: 10,
+                        ),
+                        child: Text(
+                          "${waterSlider.toInt()} mL",
+                          style: TextStyle(
+                            fontSize: 36,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueAccent,
+                          ),
+                        ),
+                      ),
+                      Slider(
+                        divisions: 20,
+                        max: 1000,
+                        min: 0,
+
+                        thumbColor: Colors.blue,
+                        activeColor: Colors.lightBlueAccent,
+                        padding: EdgeInsets.only(
+                          left: 150,
+                          right: 50,
+                          top: 10,
+                          bottom: 10,
+                        ),
+                        value: waterSlider,
+                        onChanged: (value) {
+                          setState(() {
+                            waterSlider = value;
+                          });
+                        },
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          spacing: 5,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  waterSlider = 1000;
+                                });
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  15,
+                                  175,
+                                  255,
+                                ),
+                              ),
+                              child: Text(
+                                "Max",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color.fromARGB(
+                                    255,
+                                    249,
+                                    250,
+                                    255,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color.fromARGB(
+                                  255,
+                                  15,
+                                  175,
+                                  255,
+                                ),
+                              ),
+                              onPressed: (waterSlider == 0)
+                                  ? null
+                                  : () {
+                                      setState(() {
+                                        slider = false;
+                                        today += waterSlider.toInt();
+                                        waterSlider = 0;
+                                      });
+                                    },
+                              child: Text(
+                                "Drink",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color.fromARGB(
+                                    255,
+                                    249,
+                                    250,
+                                    255,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : SizedBox.shrink(),
         ],
       ),
     );
