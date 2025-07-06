@@ -66,7 +66,6 @@ class _NoteListScreenState extends State<NoteListScreen> {
             widget.notes["notes"].length,
             () {
               setState(() {});
-              print("from addnew to list, data Change!! and work!");
             },
           );
         },

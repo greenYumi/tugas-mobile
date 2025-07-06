@@ -59,8 +59,9 @@ class _NoteMainScreenState extends State<NoteMainScreen> {
                             "notes": [],
                           });
 
-                          // dibug propose
+                          // debug propose
                           print("\nNoteMainScreen(): \n$noteData");
+                          //
                           //
                           //
                           setState(() {});
