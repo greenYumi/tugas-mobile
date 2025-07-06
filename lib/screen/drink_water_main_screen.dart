@@ -8,6 +8,9 @@ class DrinkWaterMainScreen extends StatefulWidget {
 }
 
 class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
+  int goal = 1000;
+  int today = 300;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -15,48 +18,57 @@ class _DrinkWaterMainScreenState extends State<DrinkWaterMainScreen> {
       child: ListView(
         children: [
           Card(
-            child: Row(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
+                Column(
                   children: [
                     Stack(
                       children: [
-                        Card(
-                          color: Colors.blue.shade50,
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: RotatedBox(
-                                quarterTurns: 2,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  value: 100,
-                                  strokeWidth: 7,
-                                  strokeCap: StrokeCap.round,
-                                ),
+                        SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: RotatedBox(
+                              quarterTurns: 2,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                value: 100,
+                                strokeWidth: 7,
+                                strokeCap: StrokeCap.round,
                               ),
                             ),
                           ),
                         ),
-                        Card(
-                          shadowColor: Colors.transparent,
-                          color: Colors.transparent,
-                          child: SizedBox(
-                            width: 100,
-                            height: 100,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15),
-                              child: RotatedBox(
-                                quarterTurns: 2,
-                                child: CircularProgressIndicator(
-                                  value: 50 / 100,
-                                  strokeWidth: 7,
-                                  strokeCap: StrokeCap.round,
-                                ),
+
+                        // Main Indicator;
+                        SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: RotatedBox(
+                              quarterTurns: 2,
+                              child: CircularProgressIndicator(
+                                value: today / goal,
+                                strokeWidth: 10,
+                                color: Colors.blue,
+                                strokeCap: StrokeCap.round,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 300,
+                          height: 300,
+                          child: Center(
+                            child: Text(
+                              "$today / $goal ml",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
