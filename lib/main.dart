@@ -12,7 +12,7 @@ void main() {
     MultiProvider(
       providers: [ChangeNotifierProvider(create: (context) => ShareProvider())],
       child: MyApp(),
-    ),
+    ), //
   );
 }
 
