@@ -1,11 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:well_being_2/data/appbar_data.dart';
 import 'package:well_being_2/provider/share_provider.dart';
 import 'package:well_being_2/screen/drink_water_main_screen.dart';
 import 'package:well_being_2/screen/note_main_screen.dart';
+import 'package:well_being_2/screen/task_reminder_main_screen.dart';
 
 void main() {
   runApp(
@@ -16,7 +15,7 @@ void main() {
   );
 }
 
-int currenIndexScreen = 1;
+int currenIndexScreen = 2;
 final List<Map<String, dynamic>> screenData = appBarData;
 
 class MyApp extends StatefulWidget {
@@ -117,7 +116,11 @@ class _MyAppState extends State<MyApp> {
             ],
           ),
         ),
-        body: [NoteMainScreen(), DrinkWaterMainScreen()][currenIndexScreen],
+        body: [
+          NoteMainScreen(),
+          DrinkWaterMainScreen(),
+          TaskReminderScreen(),
+        ][currenIndexScreen],
       ),
     );
   }
